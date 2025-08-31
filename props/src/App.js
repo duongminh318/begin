@@ -15,8 +15,6 @@ import React, { Component } from 'react';
 // }
 
 // cách 2. class component
-
-
 class Car extends Component {
   constructor(props){
     super(props)  // để sử dụng dc obj props của cha
