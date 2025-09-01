@@ -97,7 +97,8 @@ class Tinhtong extends Component {
     render() {  // khi goi hàm có liên quan đề setState, change thì ham render sẽ được gọi lại
         // Dom ảo --> so sánh với DOM ảo trước đó (một bản sao của DOM thật). nếu 2 cái có sự khác biệt nó mới render lại phần tử khác đó
         return (
-            <div className='container'>
+            <div className='container text-left'>
+                <h2>Tính tổng 2 số</h2>
 
 
                 {/* Sửa ở đây: Phải gọi hàm bằng this.changeInput */}
@@ -109,26 +110,30 @@ class Tinhtong extends Component {
                     className='form-control'
                 />
                 <br />
+
                 {/* Sửa ở đây: Thêm onChange cho input này */}
                 số b: <input
                     type="number"
                     name='soB'
                     value={this.state.soB}
                     onChange={this.changeInput}
-                     className='form-control'
-                />
-                <br />
+                    className='form-control'
+                /> <br />
 
                 {/* Hiển thị kết quả tổng */}
-                tổng : <div>
+                tổng : <div className='alert alert-success'>
                     {this.state.tong}
-                    </div> 
+                </div>
                 <br />
                 {/* Sửa ở đây: Thêm sự kiện onClick để gọi hàm tính tổng */}
                 <button
-                 type="button"
-                  onClick={this.handleTinhTong}> 
-                  Tính tổng</button>
+                    type="button"
+                    onClick={this.handleTinhTong}
+                    className='btn bt-primary'
+
+                >
+                    Tính tổng
+                </button>
             </div>
         );
     }
