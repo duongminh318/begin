@@ -407,73 +407,199 @@
 // // (Có thể dispatch một action không làm gì cả để kích hoạt subscribe)
 // store.dispatch({ type: 'INIT' });
 
+// const { createStore } = window.Redux;
+// // action là object vd: {type: 'increment'}
+// const initialState = [];
+// const todoListReducer = (state = initialState, action) => {
+//     switch (action.type) {
+//         case 'add':
+//             var newState = [];
+//             for (const el of state) {
+//                 newState.push({ ...el });
+//             }
+
+//             newState.push({ ...action.payload }); // hàm thêm phần tử
+//             return newState;
+//         case 'remove':
+//             var newState = [];
+//             for (const el of state) {
+//                 const removeKey = Number(action.payload);
+//                 if (el.key != removeKey) {
+//                     newState.push({ ...el });
+//                 }
+//             }
+//             return newState;
+//         default:
+//             return state;
+//     }
+// }
+// let store = createStore(todoListReducer);
+// store.subscribe(() => {
+//     const todoList = store.getState();
+//     const olTag = document.querySelector("#view-todolist");
+//     olTag.innerHTML = '';
+//     let key = 1;
+//     for (const todo of todoList) {
+//         const liTag = document.createElement('li');
+//         liTag.textContent = todo.name;
+//         liTag.setAttribute('key', todo.key);
+//         const btnEl = document.createElement('button');
+//         btnEl.textContent = 'Xóa';
+//         btnEl.setAttribute('type', 'button');
+//         btnEl.setAttribute('key', key);
+//         btnEl.addEventListener('click', deleteTodo);
+//         liTag.appendChild(btnEl);
+//         //add thêm checkbox
+//         const chkEl = document.createElement('input');
+//         chkEl.setAttribute('type', 'checkbox');
+//         chkEl.setAttribute('key', key);
+//         liTag.prepend(chkEl);
+//         olTag.appendChild(liTag);
+//         key++;
+//     }
+//     const qtyEl = document.querySelector('.qty');
+//     qtyEl.innerHTML = todoList.length;
+// });
+// const deleteTodo = (event) => {
+//     const key = event.target.parentElement.getAttribute('key');
+//     store.dispatch({ type: 'remove', payload: key });
+
+// }
+// const formTag = document.querySelector("form");
+// formTag.onsubmit = function (e) {
+//     e.preventDefault();
+//     const inputTag = formTag.querySelector('input');
+//     const taskName = inputTag.value;
+//     const keyName = Math.floor(Math.random() * 10000);
+//     store.dispatch({ type: 'add', payload: { key: keyName, name: taskName } });
+//     this.reset();
+// }
+// const chkAllEl = document.querySelector('.chk-all');
+// chkAllEl.onclick = function () {
+//     const olEl = document.querySelector('#view-todolist');
+//     const unChkEls = olEl.querySelectorAll('input[type=checkbox]:not(:checked)');
+//     for (const unChkEl of unChkEls) {
+//         unChkEl.checked = true;
+//     }
+// }
+// const deleteTodoListEl = document.querySelector('.delete-todolist');
+// deleteTodoListEl.onclick = function () {
+//     const olEl = document.querySelector('#view-todolist');
+//     const checkedEls = olEl.querySelectorAll('input[type=checkbox]:checked');
+//     for (const checkedEl of checkedEls) {
+//         const liEl = checkedEl.parentElement;
+//         const removeKey = liEl.getAttribute('key');
+//         store.dispatch({ type: 'remove', payload: removeKey });
+//     }
+// }
+
+
+// Lấy công cụ `createStore` từ thư viện Redux.
 const { createStore } = window.Redux;
-// action là object vd: {type: 'increment'}
+
+// --- BƯỚC 1: KHO HÀNG BAN ĐẦU ---
+// Khởi tạo state là một mảng rỗng, sẵn sàng chứa các công việc.
 const initialState = [];
+
+// --- BƯỚC 2: THUÊ "THỦ KHO" (REDUCER) ---
 const todoListReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'add':
+            // Cách làm này đúng, nhưng có thể viết gọn hơn bằng: return [...state, action.payload];
             var newState = [];
             for (const el of state) {
                 newState.push({ ...el });
             }
-
-            newState.push({ ...action.payload }); // hàm thêm phần tử
+            newState.push({ ...action.payload });
             return newState;
+        
         case 'remove':
+            // Cách này cũng đúng, nhưng dùng `filter` sẽ ngắn gọn và an toàn hơn.
+            // Ví dụ: return state.filter(el => el.key !== Number(action.payload));
             var newState = [];
             for (const el of state) {
                 const removeKey = Number(action.payload);
+                // Nếu key của công việc hiện tại KHÔNG bằng key cần xóa...
                 if (el.key != removeKey) {
+                    // ...thì giữ lại công việc đó trong danh sách mới.
                     newState.push({ ...el });
                 }
             }
             return newState;
+            
         default:
             return state;
     }
 }
+
+// --- BƯỚC 3: XÂY DỰNG "KHO" ---
 let store = createStore(todoListReducer);
+
+// --- BƯỚC 4: LẮP "CAMERA AN NINH" ĐỂ CẬP NHẬT GIAO DIỆN ---
 store.subscribe(() => {
     const todoList = store.getState();
     const olTag = document.querySelector("#view-todolist");
-    olTag.innerHTML = '';
-    let key = 1;
+    olTag.innerHTML = ''; // "Tổng vệ sinh" giao diện cũ.
+
+    // Tự tạo một biến `key` BẮT ĐẦU TỪ 1 để gán cho các nút bấm và checkbox.
+    // LƯU Ý: Đây là một hệ thống key riêng, không liên quan đến `todo.key` ngẫu nhiên.
+    let key = 1; 
     for (const todo of todoList) {
         const liTag = document.createElement('li');
         liTag.textContent = todo.name;
+        // Gán key ngẫu nhiên từ state vào thẻ <li>.
         liTag.setAttribute('key', todo.key);
+
         const btnEl = document.createElement('button');
         btnEl.textContent = 'Xóa';
         btnEl.setAttribute('type', 'button');
-        btnEl.setAttribute('key', key);
+        // LỖI SAI LOGIC: Anh đang gán key BẮT ĐẦU TỪ 1 cho nút bấm.
+        // Điều này không khớp với `todo.key` ngẫu nhiên của thẻ <li>.
+        btnEl.setAttribute('key', key); 
         btnEl.addEventListener('click', deleteTodo);
         liTag.appendChild(btnEl);
-        //add thêm checkbox
+        
         const chkEl = document.createElement('input');
         chkEl.setAttribute('type', 'checkbox');
-        chkEl.setAttribute('key', key);
+        // Checkbox cũng bị gán key BẮT ĐẦU TỪ 1.
+        chkEl.setAttribute('key', key); 
         liTag.prepend(chkEl);
+        
         olTag.appendChild(liTag);
-        key++;
+        key++; // Tăng key cho vòng lặp tiếp theo.
     }
     const qtyEl = document.querySelector('.qty');
     qtyEl.innerHTML = todoList.length;
 });
-const deleteTodo = (event) => {
-    const key = event.target.parentElement.getAttribute('key');
-    store.dispatch({ type: 'remove', payload: key });
 
+// --- BƯỚC 5: CÁC HÀM XỬ LÝ SỰ KIỆN ---
+
+// Hàm xóa một công việc
+const deleteTodo = (event) => {
+    // LỖI SAI CHÍ MẠNG:
+    // event.target là cái NÚT BẤM.
+    // event.target.parentElement là thẻ <li> chứa nút bấm đó.
+    // Anh đang lấy ra key của thẻ <li> (là một số ngẫu nhiên) để gửi đi.
+    const key = event.target.parentElement.getAttribute('key');
+    // Tuy nhiên, reducer của anh lại đang xử lý xóa dựa trên key BẮT ĐẦU TỪ 1.
+    // Hai hệ thống key này không khớp nhau, dẫn đến xóa sai hoặc không xóa được.
+    store.dispatch({ type: 'remove', payload: key });
 }
+
+// Xử lý form thêm công việc
 const formTag = document.querySelector("form");
 formTag.onsubmit = function (e) {
     e.preventDefault();
     const inputTag = formTag.querySelector('input');
     const taskName = inputTag.value;
+    // Tạo ra một key ngẫu nhiên, duy nhất cho mỗi công việc.
     const keyName = Math.floor(Math.random() * 10000);
+    // Gửi yêu cầu "add" với payload là một object chứa cả key và tên.
     store.dispatch({ type: 'add', payload: { key: keyName, name: taskName } });
-    this.reset();
+    this.reset(); // Xóa nội dung form sau khi submit.
 }
+
+// Xử lý nút "Check All"
 const chkAllEl = document.querySelector('.chk-all');
 chkAllEl.onclick = function () {
     const olEl = document.querySelector('#view-todolist');
@@ -482,10 +608,16 @@ chkAllEl.onclick = function () {
         unChkEl.checked = true;
     }
 }
+
+// Xử lý nút "Delete" (xóa nhiều mục)
 const deleteTodoListEl = document.querySelector('.delete-todolist');
 deleteTodoListEl.onclick = function () {
     const olEl = document.querySelector('#view-todolist');
     const checkedEls = olEl.querySelectorAll('input[type=checkbox]:checked');
+    
+    // LỖI SAI LOGIC: Lặp xuôi sẽ gây ra lỗi bỏ sót phần tử khi xóa.
+    // Ví dụ: khi anh xóa phần tử thứ 2, phần tử thứ 3 sẽ dồn lên thành thứ 2.
+    // Vòng lặp tiếp theo sẽ xử lý phần tử thứ 3 (mới), bỏ qua phần tử vừa dồn lên.
     for (const checkedEl of checkedEls) {
         const liEl = checkedEl.parentElement;
         const removeKey = liEl.getAttribute('key');
