@@ -1,7 +1,7 @@
 
 import './App.css'
 import { connect } from 'react-redux'   // connect giúp kết nối React component với Redux store
-
+import React from 'react';
 // Component App
 class App extends React.Component {
   constructor(props){
