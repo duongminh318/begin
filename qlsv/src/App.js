@@ -55,4 +55,4 @@ function App() {
 }
 
 // Xuất component App ra để sử dụng.
-export default App;
+export default App;    

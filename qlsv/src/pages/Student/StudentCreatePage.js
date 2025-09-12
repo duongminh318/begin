@@ -82,7 +82,7 @@ export default function StudentCreatePage() {
         setIsError(false);
 
         // Thực hiện cuộc gọi API sử dụng `fetch` để gửi dữ liệu sinh viên mới.
-        fetch("https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/students", {
+        fetch("https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1sssssss/students", {
             method: "POST", // Chỉ định phương thức HTTP là POST (để tạo tài nguyên mới).
             headers: {
                 // Thiết lập header `Content-Type` để báo cho server biết định dạng dữ liệu gửi đi là JSON.
