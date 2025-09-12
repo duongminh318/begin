@@ -82,7 +82,7 @@ export default function StudentCreatePage() {
         setIsError(false);
 
         // Thực hiện cuộc gọi API sử dụng `fetch` để gửi dữ liệu sinh viên mới.
-        fetch("https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/studentsss", {
+        fetch("https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/students", {
             method: "POST", // Chỉ định phương thức HTTP là POST (để tạo tài nguyên mới).
             headers: {
                 // Thiết lập header `Content-Type` để báo cho server biết định dạng dữ liệu gửi đi là JSON.
@@ -100,7 +100,7 @@ export default function StudentCreatePage() {
                 // TODO: Có thể thêm các hành động sau khi tạo thành công ở đây:
                 //   - `formik.resetForm()`: Để xóa các giá trị trong form sau khi submit.
                 //   - `navigate('/student')`: Để điều hướng người dùng quay lại trang danh sách sinh viên.
-                
+
             })
             // Bắt lỗi nếu có vấn đề trong quá trình gửi request hoặc nhận phản hồi.
             .catch(error => {

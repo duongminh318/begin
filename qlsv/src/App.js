@@ -40,7 +40,7 @@ function App() {
           <Route path="student/create" element={<StudentCreatePage />} />
           
           {/* Khi URL là "/student/edit", hiển thị component StudentEditPage. */}
-          <Route path="student/edit" element={<StudentEditPage />} />
+          <Route path="student/:id/edit" element={<StudentEditPage />} />
           
           {/* Đây là "tuyến đường bắt tất cả" (catch-all route).
               - path="*": Dấu "*" sẽ khớp với BẤT KỲ URL nào không khớp với các tuyến đường đã định nghĩa ở trên.
