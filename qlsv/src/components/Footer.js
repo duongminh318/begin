@@ -4,7 +4,7 @@ class Footer extends Component {
     render() {
         return (
             <footer>
-                @copyright 2024
+                @copyright 2025
             </footer>
         );
     }
