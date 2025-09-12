@@ -35,7 +35,7 @@ class Student extends Component {
                     - <a href="edit.html">Sửa</a>: Hiện tại đang dùng một thẻ <a> link cứng đến 'edit.html'.
                       Trong một ứng dụng React với React Router, thường sẽ dùng <Link to="/student/edit/ID_SINH_VIEN">
                       hoặc một Button với sự kiện onClick để điều hướng. */}
-                <td><a href="edit.html">Sửa</a></td>
+                <td><a className='btn btn-warning btn-sm ' href={`/student/${this.props.data.id}/edit`}>Sửa</a></td>
 
                 {/* Cột chứa nút "Xóa".
                     - <a ...>Xóa</a>: Cũng là một thẻ <a> link cứng.
