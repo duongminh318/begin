@@ -126,7 +126,11 @@ export default function StudentEditPage() {
                                         value={formik.values.name}
 
                                         onChange={formik.handleChange}
+
                                     />
+                                    {formik.touched.name && formik.errors.name ? (
+                                        <div className="text-danger">{formik.errors.name}</div>
+                                    ) : null}
                                 </div>
                                 <div className="form-group">
                                     <label>Birthday</label>
@@ -138,6 +142,9 @@ export default function StudentEditPage() {
 
                                         onChange={formik.handleChange}
                                     />
+                                    {formik.touched.birthday && formik.errors.birthday ? (
+                                        <div className="text-danger">{formik.errors.birthday}</div>
+                                    ) : null}
                                 </div>
                                 <div className="form-group">
                                     <label>Chọn Giới tính</label>
@@ -150,6 +157,9 @@ export default function StudentEditPage() {
                                         <option value="nữ" >Nữ</option>
                                         <option value="khác">Khác</option>
                                     </select>
+                                    {formik.touched.gender && formik.errors.gender ? (
+                                        <div className="text-danger">{formik.errors.gender}</div>
+                                    ) : null}
                                 </div>
                                 <div className="form-group">
                                     <button className="btn btn-success" type="submit">Lưu</button>
