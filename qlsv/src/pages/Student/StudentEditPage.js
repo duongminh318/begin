@@ -33,6 +33,7 @@ export default function StudentEditPage() {
     // `isError` là một boolean (true/false) để xác định xem thông báo có phải là lỗi không.
     // Giá trị khởi tạo là `false`, tức là ban đầu không phải lỗi.
     const [isError, setIsError] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     // ------------------- SỬ DỤNG HOOK `useFormik` ĐỂ QUẢN LÝ FORM -------------------
 
@@ -101,9 +102,37 @@ export default function StudentEditPage() {
     useEffect(() => {
 
         // call api
+        fetch(`https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/students/${params.id}`)
+            // Khi nhận được phản hồi từ server, chuyển đổi nó sang định dạng JSON.
+            .then(result => result.json())
+            // Khi dữ liệu JSON đã sẵn sàng...
+            .then(result => {
+                setIsError(false);
+                formik.values.name = result.name;
+                setIsLoaded(true);
+            })
+            // Nếu có lỗi trong quá trình fetch hoặc xử lý JSON...
+            .catch(error =>
+            // ...cập nhật state: lưu lỗi và đặt isLoaded thành true (vì quá trình đã kết thúc, dù có lỗi).
+            {
+                console.log(error);
+            }
+            );
 
 
-    }, [])
+    }, []);
+
+     if (!isLoaded) {
+            // ...thì lập tức return JSX này. Các đoạn code phía dưới sẽ không được thực thi.
+            return <div className="text-success">Loading...</div>; // ...hiển thị thông báo "Loading...".
+        }
+        // Điều kiện 2: Nếu không phải đang tải, thì kiểm tra xem có lỗi không.
+        // `else if` đảm bảo chỉ kiểm tra lỗi khi đã tải xong (hoặc có lỗi xảy ra trong quá trình tải).
+        // Nếu `error` không phải là `null` hoặc `undefined` (tức là có lỗi)...
+        else if (isError) {
+            // ...thì lập tức return JSX này. Các đoạn code phía dưới sẽ không được thực thi.
+            return <div className="text-danger">{message || 'Có lỗi xảy ra'}</div>; // ...hiển thị thông báo lỗi.
+        }
 
     // ------------------- PHẦN TRẢ VỀ JSX (GIAO DIỆN) CỦA COMPONENT -------------------
 
