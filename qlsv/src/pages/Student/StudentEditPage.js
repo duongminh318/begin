@@ -55,6 +55,9 @@ export default function StudentEditPage() {
             name: Yup.string() // Phải là một chuỗi (string).
                 .required('Vui lòng nhập tên'), // Là trường bắt buộc, nếu trống sẽ hiển thị thông báo này.
 
+            // name: Yup.number().typeError("chỗ này phải là số nha thím") // Phải là một chuỗi (string).
+            //     .required('Vui lòng nhập tên'), // Là trường bắt buộc, nếu trống sẽ hiển thị thông báo này.
+
             // Quy tắc cho trường `birthday`:
             birthday: Yup.string() // Phải là một chuỗi (string).
                 .required('Vui lòng nhập ngày sinh'), // Là trường bắt buộc.
@@ -80,20 +83,20 @@ export default function StudentEditPage() {
 
     // Hàm `handleSubmitForm` nhận vào `data` (chính là `values` từ Formik).
     const handleSubmitForm = (data) => {
-        //  fetch('https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/students')
-        //     // Khi nhận được phản hồi từ server, chuyển đổi nó sang định dạng JSON.
-        //     .then(result => result.json())
-        //     // Khi dữ liệu JSON đã sẵn sàng...
-        //     .then(result =>
-        //         // ...cập nhật state: gán dữ liệu vào studentList và đặt isLoaded thành true.
-        //         // Việc gọi setState sẽ khiến component re-render (vẽ lại).
-        //         this.setState({ studentList: result, isLoaded: true })
-        //     )
-        //     // Nếu có lỗi trong quá trình fetch hoặc xử lý JSON...
-        //     .catch(error =>
-        //         // ...cập nhật state: lưu lỗi và đặt isLoaded thành true (vì quá trình đã kết thúc, dù có lỗi).
-        //         this.setState({ error: error, isLoaded: true })
-        //     );
+         fetch('https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/students')
+            // Khi nhận được phản hồi từ server, chuyển đổi nó sang định dạng JSON.
+            .then(result => result.json())
+            // Khi dữ liệu JSON đã sẵn sàng...
+            .then(result =>
+                // ...cập nhật state: gán dữ liệu vào studentList và đặt isLoaded thành true.
+                // Việc gọi setState sẽ khiến component re-render (vẽ lại).
+                this.setState({ studentList: result, isLoaded: true })
+            )
+            // Nếu có lỗi trong quá trình fetch hoặc xử lý JSON...
+            .catch(error =>
+                // ...cập nhật state: lưu lỗi và đặt isLoaded thành true (vì quá trình đã kết thúc, dù có lỗi).
+                this.setState({ error: error, isLoaded: true })
+            );
 
 
     }
@@ -109,6 +112,8 @@ export default function StudentEditPage() {
             .then(result => {
                 setIsError(false);
                 formik.values.name = result.name;
+                formik.values.birthday = result.birthday;
+                formik.values.gender = result.gender;
                 setIsLoaded(true);
             })
             // Nếu có lỗi trong quá trình fetch hoặc xử lý JSON...
@@ -122,17 +127,17 @@ export default function StudentEditPage() {
 
     }, []);
 
-     if (!isLoaded) {
-            // ...thì lập tức return JSX này. Các đoạn code phía dưới sẽ không được thực thi.
-            return <div className="text-success">Loading...</div>; // ...hiển thị thông báo "Loading...".
-        }
-        // Điều kiện 2: Nếu không phải đang tải, thì kiểm tra xem có lỗi không.
-        // `else if` đảm bảo chỉ kiểm tra lỗi khi đã tải xong (hoặc có lỗi xảy ra trong quá trình tải).
-        // Nếu `error` không phải là `null` hoặc `undefined` (tức là có lỗi)...
-        else if (isError) {
-            // ...thì lập tức return JSX này. Các đoạn code phía dưới sẽ không được thực thi.
-            return <div className="text-danger">{message || 'Có lỗi xảy ra'}</div>; // ...hiển thị thông báo lỗi.
-        }
+    if (!isLoaded) {
+        // ...thì lập tức return JSX này. Các đoạn code phía dưới sẽ không được thực thi.
+        return <div className="text-success">Loading...</div>; // ...hiển thị thông báo "Loading...".
+    }
+    // Điều kiện 2: Nếu không phải đang tải, thì kiểm tra xem có lỗi không.
+    // `else if` đảm bảo chỉ kiểm tra lỗi khi đã tải xong (hoặc có lỗi xảy ra trong quá trình tải).
+    // Nếu `error` không phải là `null` hoặc `undefined` (tức là có lỗi)...
+    else if (isError) {
+        // ...thì lập tức return JSX này. Các đoạn code phía dưới sẽ không được thực thi.
+        return <div className="text-danger">{message || 'Có lỗi xảy ra'}</div>; // ...hiển thị thông báo lỗi.
+    }
 
     // ------------------- PHẦN TRẢ VỀ JSX (GIAO DIỆN) CỦA COMPONENT -------------------
 
@@ -168,6 +173,7 @@ export default function StudentEditPage() {
                                         placeholder="Ngày sinh của bạn"
                                         name="birthday"
 
+                                        value={formik.values.birthday}
 
                                         onChange={formik.handleChange}
                                     />
@@ -177,15 +183,20 @@ export default function StudentEditPage() {
                                 </div>
                                 <div className="form-group">
                                     <label>Chọn Giới tính</label>
-                                    <select className="form-control" id="gender"
-                                        name="" onChange={formik.handleChange}
+                                    <select
+                                        className="form-control"
+                                        id="gender"
+                                        name="gender" // `name` phải khớp.
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
                                         value={formik.values.gender}
                                     >
-                                        <option value="">---</option>
-                                        <option value="nam">Nam</option>
-                                        <option value="nữ" >Nữ</option>
+                                        <option value="">---</option> {/* Option rỗng để người dùng phải chọn */}
+                                        <option value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
                                         <option value="khác">Khác</option>
                                     </select>
+
                                     {formik.touched.gender && formik.errors.gender ? (
                                         <div className="text-danger">{formik.errors.gender}</div>
                                     ) : null}
