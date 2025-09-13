@@ -83,134 +83,139 @@ export default function StudentEditPage() {
 
     // Hàm `handleSubmitForm` nhận vào `data` (chính là `values` từ Formik).
     const handleSubmitForm = (data) => {
-         fetch('https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/students')
-            // Khi nhận được phản hồi từ server, chuyển đổi nó sang định dạng JSON.
-            .then(result => result.json())
-            // Khi dữ liệu JSON đã sẵn sàng...
-            .then(result =>
-                // ...cập nhật state: gán dữ liệu vào studentList và đặt isLoaded thành true.
-                // Việc gọi setState sẽ khiến component re-render (vẽ lại).
-                this.setState({ studentList: result, isLoaded: true })
-            )
-            // Nếu có lỗi trong quá trình fetch hoặc xử lý JSON...
-            .catch(error =>
-                // ...cập nhật state: lưu lỗi và đặt isLoaded thành true (vì quá trình đã kết thúc, dù có lỗi).
-                this.setState({ error: error, isLoaded: true })
-            );
-
-
-    }
-
-    // render xong mới chạy tới useEffect, và useEffect chỉ chạy 1 lần đầu tiên
-    useEffect(() => {
-
-        // call api
-        fetch(`https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/students/${params.id}`)
-            // Khi nhận được phản hồi từ server, chuyển đổi nó sang định dạng JSON.
-            .then(result => result.json())
-            // Khi dữ liệu JSON đã sẵn sàng...
-            .then(result => {
+        fetch(`https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/students/${params.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((res) => res.json())
+            .then((result) => {
+                setMessage('Đã cập nhật sinh viên thành công');
                 setIsError(false);
-                formik.values.name = result.name;
-                formik.values.birthday = result.birthday;
-                formik.values.gender = result.gender;
-                setIsLoaded(true);
+                console.log("Kết quả API:", result);
             })
-            // Nếu có lỗi trong quá trình fetch hoặc xử lý JSON...
-            .catch(error =>
-            // ...cập nhật state: lưu lỗi và đặt isLoaded thành true (vì quá trình đã kết thúc, dù có lỗi).
-            {
-                console.log(error);
-            }
-            );
+            .catch((error) => {
+                setMessage(`Có lỗi xảy ra: ${error.message || error}`);
+                setIsError(true);
+            });
+    };
 
 
-    }, []);
 
-    if (!isLoaded) {
-        // ...thì lập tức return JSX này. Các đoạn code phía dưới sẽ không được thực thi.
-        return <div className="text-success">Loading...</div>; // ...hiển thị thông báo "Loading...".
-    }
-    // Điều kiện 2: Nếu không phải đang tải, thì kiểm tra xem có lỗi không.
-    // `else if` đảm bảo chỉ kiểm tra lỗi khi đã tải xong (hoặc có lỗi xảy ra trong quá trình tải).
-    // Nếu `error` không phải là `null` hoặc `undefined` (tức là có lỗi)...
-    else if (isError) {
-        // ...thì lập tức return JSX này. Các đoạn code phía dưới sẽ không được thực thi.
-        return <div className="text-danger">{message || 'Có lỗi xảy ra'}</div>; // ...hiển thị thông báo lỗi.
-    }
 
-    // ------------------- PHẦN TRẢ VỀ JSX (GIAO DIỆN) CỦA COMPONENT -------------------
 
-    return (
-        // Fragment `<>` và `</>` được sử dụng để bọc nhiều phần tử JSX mà không thêm một thẻ HTML thừa nào vào DOM.
+// render xong mới chạy tới useEffect, và useEffect chỉ chạy 1 lần đầu tiên
+useEffect(() => {
 
+    // call api
+    fetch(`https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/students/${params.id}`)
+        // Khi nhận được phản hồi từ server, chuyển đổi nó sang định dạng JSON.
+        .then(result => result.json())
+        // Khi dữ liệu JSON đã sẵn sàng...
+        .then(result => {
+            setIsError(false);
+            formik.values.name = result.name;
+            formik.values.birthday = result.birthday;
+            formik.values.gender = result.gender;
+            setIsLoaded(true);
+        })
+        // Nếu có lỗi trong quá trình fetch hoặc xử lý JSON...
+        .catch(error =>
+        // ...cập nhật state: lưu lỗi và đặt isLoaded thành true (vì quá trình đã kết thúc, dù có lỗi).
+        {
+            console.log(error);
+        }
+        );
+
+
+}, []);
+
+if (!isLoaded) {
+    // ...thì lập tức return JSX này. Các đoạn code phía dưới sẽ không được thực thi.
+    return <div className="text-success">Loading...</div>; // ...hiển thị thông báo "Loading...".
+}
+// Điều kiện 2: Nếu không phải đang tải, thì kiểm tra xem có lỗi không.
+// `else if` đảm bảo chỉ kiểm tra lỗi khi đã tải xong (hoặc có lỗi xảy ra trong quá trình tải).
+// Nếu `error` không phải là `null` hoặc `undefined` (tức là có lỗi)...
+else if (isError) {
+    // ...thì lập tức return JSX này. Các đoạn code phía dưới sẽ không được thực thi.
+    return <div className="text-danger">{message || 'Có lỗi xảy ra'}</div>; // ...hiển thị thông báo lỗi.
+}
+
+// ------------------- PHẦN TRẢ VỀ JSX (GIAO DIỆN) CỦA COMPONENT -------------------
+
+return (
+    // Fragment `<>` và `</>` được sử dụng để bọc nhiều phần tử JSX mà không thêm một thẻ HTML thừa nào vào DOM.
+
+    <div>
         <div>
-            <div>
-                <h1>Chỉnh sửa sinh viên</h1>
-                <form onSubmit={formik.handleSubmit}>
-                    <input type="hidden" name="id" defaultValue={1} />
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-5">
-                                <div className="form-group">
-                                    <label>Tên</label>
-                                    <input type="text" className="form-control"
-                                        placeholder="Tên của bạn"
-                                        name="name"
-                                        value={formik.values.name}
+            <h1>Chỉnh sửa sinh viên</h1>
+            <form onSubmit={formik.handleSubmit}>
+                <input type="hidden" name="id" defaultValue={1} />
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-5">
+                            <div className="form-group">
+                                <label>Tên</label>
+                                <input type="text" className="form-control"
+                                    placeholder="Tên của bạn"
+                                    name="name"
+                                    value={formik.values.name}
 
-                                        onChange={formik.handleChange}
+                                    onChange={formik.handleChange}
 
-                                    />
-                                    {formik.touched.name && formik.errors.name ? (
-                                        <div className="text-danger">{formik.errors.name}</div>
-                                    ) : null}
-                                </div>
-                                <div className="form-group">
-                                    <label>Birthday</label>
-                                    <input type="date"
-                                        className="form-control"
-                                        placeholder="Ngày sinh của bạn"
-                                        name="birthday"
+                                />
+                                {formik.touched.name && formik.errors.name ? (
+                                    <div className="text-danger">{formik.errors.name}</div>
+                                ) : null}
+                            </div>
+                            <div className="form-group">
+                                <label>Birthday</label>
+                                <input type="date"
+                                    className="form-control"
+                                    placeholder="Ngày sinh của bạn"
+                                    name="birthday"
 
-                                        value={formik.values.birthday}
+                                    value={formik.values.birthday}
 
-                                        onChange={formik.handleChange}
-                                    />
-                                    {formik.touched.birthday && formik.errors.birthday ? (
-                                        <div className="text-danger">{formik.errors.birthday}</div>
-                                    ) : null}
-                                </div>
-                                <div className="form-group">
-                                    <label>Chọn Giới tính</label>
-                                    <select
-                                        className="form-control"
-                                        id="gender"
-                                        name="gender" // `name` phải khớp.
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.gender}
-                                    >
-                                        <option value="">---</option> {/* Option rỗng để người dùng phải chọn */}
-                                        <option value="Nam">Nam</option>
-                                        <option value="Nữ">Nữ</option>
-                                        <option value="khác">Khác</option>
-                                    </select>
+                                    onChange={formik.handleChange}
+                                />
+                                {formik.touched.birthday && formik.errors.birthday ? (
+                                    <div className="text-danger">{formik.errors.birthday}</div>
+                                ) : null}
+                            </div>
+                            <div className="form-group">
+                                <label>Chọn Giới tính</label>
+                                <select
+                                    className="form-control"
+                                    id="gender"
+                                    name="gender" // `name` phải khớp.
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.gender}
+                                >
+                                    <option value="">---</option> {/* Option rỗng để người dùng phải chọn */}
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                    <option value="khác">Khác</option>
+                                </select>
 
-                                    {formik.touched.gender && formik.errors.gender ? (
-                                        <div className="text-danger">{formik.errors.gender}</div>
-                                    ) : null}
-                                </div>
-                                <div className="form-group">
-                                    <button className="btn btn-success" type="submit">Lưu</button>
-                                </div>
+                                {formik.touched.gender && formik.errors.gender ? (
+                                    <div className="text-danger">{formik.errors.gender}</div>
+                                ) : null}
+                            </div>
+                            <div className="form-group">
+                                <button className="btn btn-success" type="submit">Lưu</button>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
-
+                </div>
+            </form>
         </div>
 
-    )
+    </div>
+
+)
 }
