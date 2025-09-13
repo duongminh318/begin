@@ -9,7 +9,7 @@ class Student extends Component {
     // Phương thức `render()` là bắt buộc trong mọi Class Component.
     // Nó định nghĩa những gì component này sẽ hiển thị ra trên giao diện.
     render() {
-        console.log(this.props.data);   // hiển thị ra xem dữ liệu gồm những gì
+        //console.log(this.props.data);   // hiển thị ra xem dữ liệu gồm những gì
         return (
             // Trả về một phần tử <tr> (table row), là một hàng trong bảng HTML.
             <tr>

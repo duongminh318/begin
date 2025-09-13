@@ -39,7 +39,7 @@ class StudentList extends Component {
     }
 
     // Phương thức `render()` định nghĩa những gì component này sẽ hiển thị ra trên giao diện.
-   // Phương thức `render()` định nghĩa những gì component này sẽ hiển thị ra trên giao diện.
+    // Phương thức `render()` định nghĩa những gì component này sẽ hiển thị ra trên giao diện.
     render() {
         // Giải cấu trúc (destructuring) các giá trị từ state để dễ sử dụng hơn.
         // Đây là cách ngắn gọn để lấy các thuộc tính `studentList`, `isLoaded`, `error` từ `this.state`.
@@ -68,15 +68,17 @@ class StudentList extends Component {
             <>
                 <table className="table table-hover">
                     <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Mã SV</th>
-                            <th>Tên</th>
-                            <th>Ngày Sinh</th>
-                            <th>Giới Tính</th>
-                            <th /> {/* Cột rỗng cho nút Sửa */}
-                            <th /> {/* Cột rỗng cho nút Xóa */}
-                        </tr>
+                       
+                            <tr>
+                                <th>#</th>
+                                <th>Mã SV</th>
+                                <th>Tên</th>
+                                <th>Ngày Sinh</th>
+                                <th>Giới Tính</th>
+                                <th></th>{/* Cột rỗng cho nút Sửa */}
+                                <th></th>{/* Cột rỗng cho nút Xóa */}
+                            </tr>
+                        
                     </thead>
                     <tbody>
                         {/* Lặp qua mảng studentList và render mỗi item thành một component Student. */}

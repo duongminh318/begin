@@ -12,9 +12,9 @@ import studentReducer from './studentReducer'
 const rootReducer = combineReducers({
   // key: value
   // key là tên state trong store, value là reducer quản lý state đó.
-  studentReducer: studentReducer
+  studentReducer
   // ví dụ nếu thêm counter: counter: counter
-})
+});
 
 // Xuất rootReducer để dùng trong createStore/configureStore.
 // Đây chính là reducer "tổng" cho toàn bộ ứng dụng.
