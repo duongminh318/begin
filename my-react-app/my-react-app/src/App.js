@@ -18,7 +18,7 @@ function App() {
           Learn React
 
           <h1> Cảm ơn Linh đã nghiêm khắc giúp anh nhé</h1>
-         
+
         </a>
       </header>
     </div>
