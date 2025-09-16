@@ -2,6 +2,7 @@
 // Class Component cần import { Component } để kế thừa.
 import React, { Component } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 // Định nghĩa một Class Component có tên là Student.
 // Component này sẽ hiển thị thông tin của MỘT sinh viên.
 
@@ -9,9 +10,15 @@ import { useDispatch } from 'react-redux';
 
 
 const Student = (props) => {
+    let navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleDelete = (id) => {
+        // xác nhận đã xoá thành công
+        const confirm = window.confirm("Thím có chắc muốn xoá")
+        if (!confirm) {
+            return;
+        }
         // alert(id);
         fetch(`https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/students/${id}`, {
             method: "DELETE",
@@ -20,7 +27,8 @@ const Student = (props) => {
 
             .then((result) => {
                 reloadData();
-                window.location.href = "/";
+                navigate({ pathname: "/student", state: {message: "Thím đã xoá thành công ", 
+                    isError: false} });
             })
             .catch((error) => {
 
