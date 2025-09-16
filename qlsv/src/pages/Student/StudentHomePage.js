@@ -28,7 +28,8 @@ const StudentHomePage = () => {
                 // ...cập nhật state: gán dữ liệu vào studentList và đặt isLoaded thành true.
                 // Việc gọi setState sẽ khiến component re-render (vẽ lại).
                 setIsLoaded(true)
-                dispatch({ type: "search", payload: { keyword: "", list: result } });
+                dispatch({ type: "search", 
+                    payload: { keyword: "", list: result } });
             })
 
 

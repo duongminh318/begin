@@ -5,10 +5,30 @@ import { useState } from "react";
 
 const Search = () => {
     const [search, setSearch] = useState("");
-    const dispath = useDispatch();
+    const dispatch = useDispatch();
     function handleSearch() {
-        console.log(search);
-        dispath({ type: "search", payload: search });
+        // Thực hiện cuộc gọi API để lấy danh sách sinh viên.
+        fetch(`https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/students?name=${search}`)
+            // Khi nhận được phản hồi từ server, chuyển đổi nó sang định dạng JSON.
+            .then(result => result.json())
+            // Khi dữ liệu JSON đã sẵn sàng...
+            .then((result) => {
+                // ...cập nhật state: gán dữ liệu vào studentList và đặt isLoaded thành true.
+                // Việc gọi setState sẽ khiến component re-render (vẽ lại).
+
+                dispatch({
+                    type: "search",
+                    payload: { keyword: search, list: result }
+                });
+            })
+
+
+            // Nếu có lỗi trong quá trình fetch hoặc xử lý JSON...
+            .catch(error => {
+
+            });
+
+
     }
     return (
         <form action="list.html" method="GET">
