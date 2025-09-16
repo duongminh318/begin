@@ -119,7 +119,7 @@ export default function StudentCreatePage() {
             <div>
                 {/* Hiển thị component `Message` nếu `message` không phải là `null` hoặc chuỗi rỗng.
                     `isError` prop được truyền vào để Message biết cần hiển thị kiểu thông báo lỗi hay thành công. */}
-                {message ? <Message isError={isError}>{message}</Message> : ""}
+               
 
                 <h1>Thêm sinh viên</h1>
 

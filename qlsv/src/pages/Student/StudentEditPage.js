@@ -16,10 +16,12 @@ import { useParams } from "react-router-dom"
 // Import component Message tùy chỉnh.
 // Component này dùng để hiển thị các thông báo (ví dụ: thành công, lỗi, đang xử lý) cho người dùng.
 import Message from '../../components/Message';
+import { useNavigate } from "react-router-dom";
 
 // Định nghĩa Functional Component có tên là StudentCreatePage.
 // `export default` giúp component này có thể được import và sử dụng ở các file React khác.
 export default function StudentEditPage() {
+    let navigate = useNavigate();
     const params = useParams()
     console.log(params);
     // ------------------- QUẢN LÝ TRẠNG THÁI CỤC BỘ (LOCAL STATE) -------------------
@@ -92,11 +94,13 @@ export default function StudentEditPage() {
         })
             .then((res) => res.json())
             .then((result) => {
-                setMessage('Đã cập nhật sinh viên thành công');
-                setIsError(false);
-                console.log("Kết quả API:", result);
-                // qua về trang list
-                window.location.href = "/";
+                navigate({
+                    pathname: "/student", state: {
+                        message: "Thím đã Update thành công ",
+                        isError: false
+                    }
+                });
+               
             })
             .catch((error) => {
                 setMessage(`Có lỗi xảy ra: ${error.message || error}`);
@@ -155,7 +159,6 @@ export default function StudentEditPage() {
             <div>
 
                 <h1>Chỉnh sửa sinh viên</h1>
-                {message ? <Message isError={isError}>{message}</Message> : ""}
                 <form onSubmit={formik.handleSubmit}>
                     <input type="hidden" name="id" defaultValue={1} />
                     <div className="container">

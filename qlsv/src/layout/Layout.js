@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Outlet } from 'react-router-dom';
+import Message from "../components/Message"
 
 class Layout extends Component {
     render() {
         return (
             <div className="container" style={{ marginTop: 20 }}>
+                <Message/>
                 <Header />
                 <Outlet /> {/* Dữ liệu động */}
                 <Footer />
