@@ -1,6 +1,6 @@
 // Khởi tạo state mặc định (ban đầu) cho reducer này.
 // Ở đây chỉ có một thuộc tính là "search", giá trị rỗng "".
-const initialState = { search: "" };
+const initialState = { keyword: "", list:[] };
 
 // Định nghĩa reducer có tên là bankReducer.
 // Reducer là một function nhận vào 2 tham số:
@@ -14,8 +14,9 @@ export default function bankReducer(state = initialState, action) {
         // Nếu action có type là 'search':
         case 'search':
             // Tạo state mới với search = dữ liệu được gửi kèm (action.payload).
-            newState = { search: action.payload }
-            return newState; // Trả về state mới.
+            return { keyword: action.payload.keyword, 
+                list: action.payload.list }
+           
 
         // Nếu không khớp với case nào ở trên:
         default:
