@@ -5,6 +5,10 @@ import React, { Component } from 'react';
 // Định nghĩa một Class Component có tên là Student.
 // Component này sẽ hiển thị thông tin của MỘT sinh viên.
 class Student extends Component {
+    // viết hàm Delete
+     handleDelete=(id)=>{
+        alert(id);
+    }
 
     // Phương thức `render()` là bắt buộc trong mọi Class Component.
     // Nó định nghĩa những gì component này sẽ hiển thị ra trên giao diện.
@@ -45,7 +49,12 @@ class Student extends Component {
                     - className="delete": Gán class CSS.
                     - href="list.html": Link cứng đến 'list.html'.
                     - type="student": Thuộc tính không chuẩn của HTML, có thể là `data-type="student"`. */}
-                <td><a data={1} className="delete" href="list.html" type="student">Xóa</a></td>
+                <td><button data={1}
+                className='btn btn-danger btn-sm '
+                 href="list.html"
+                  type="student"
+                  onClick={()=>this.handleDelete(this.props.data.id)}>
+                    Xóa</button></td>
             </tr>
         );
     }
