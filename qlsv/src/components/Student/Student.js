@@ -1,13 +1,49 @@
 // Import thư viện React và đối tượng Component từ React.
 // Class Component cần import { Component } để kế thừa.
 import React, { Component } from 'react';
-
+import { useDispatch } from 'react-redux';
 // Định nghĩa một Class Component có tên là Student.
 // Component này sẽ hiển thị thông tin của MỘT sinh viên.
 class Student extends Component {
+    // const dispatch = useDispatch();
     // viết hàm Delete
      handleDelete=(id)=>{
-        alert(id);
+        // alert(id);
+           fetch(`https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/students/${params.id}`, {
+            method: "DELETE",
+            
+        })
+        
+            .then((result) => {
+               this.reloadData();
+                window.location.href = "/";
+            })
+            .catch((error) => {
+                
+            });
+    }
+    reloadData=()=>{
+         fetch('https://65d036e5ab7beba3d5e2df7e.mockapi.io/api/v1/students')
+            // Khi nhận được phản hồi từ server, chuyển đổi nó sang định dạng JSON.
+            .then(result => result.json())
+            // Khi dữ liệu JSON đã sẵn sàng...
+            .then((result) => {
+                // ...cập nhật state: gán dữ liệu vào studentList và đặt isLoaded thành true.
+                // Việc gọi setState sẽ khiến component re-render (vẽ lại).
+               
+                dispatch({ type: "search", 
+                    payload: { keyword: "", list: result } });
+            })
+
+
+            // Nếu có lỗi trong quá trình fetch hoặc xử lý JSON...
+            .catch(error => {
+                // ...cập nhật state: lưu lỗi và đặt isLoaded thành true (vì quá trình đã kết thúc, dù có lỗi).
+           
+            }
+
+
+            );
     }
 
     // Phương thức `render()` là bắt buộc trong mọi Class Component.
