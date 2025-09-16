@@ -6,18 +6,7 @@ import Student from './Student';
 // Định nghĩa một Class Component có tên là StudentList.
 // Component này sẽ hiển thị danh sách các sinh viên.
 class StudentList extends Component {
-    // Constructor được gọi khi component được tạo ra.
-    constructor(props) {
-        super(props); // Luôn phải gọi super(props) đầu tiên trong constructor của Class Component.
-
-        // Khởi tạo trạng thái (state) ban đầu của component.
-        // - studentList: Mảng rỗng để chứa dữ liệu sinh viên sau khi tải.
-        // - isLoaded: Biến boolean báo hiệu dữ liệu đã tải xong hay chưa. Ban đầu là false (chưa tải).
-        // - error: Null nếu không có lỗi, sẽ chứa thông báo lỗi nếu có.
-        this.state = { studentList: [], isLoaded: false, error: null };
-    }
-
-   
+    
 
     // Phương thức `render()` định nghĩa những gì component này sẽ hiển thị ra trên giao diện.
     // Phương thức `render()` định nghĩa những gì component này sẽ hiển thị ra trên giao diện.
@@ -45,7 +34,7 @@ class StudentList extends Component {
                     </thead>
                     <tbody>
                         {/* Lặp qua mảng studentList và render mỗi item thành một component Student. */}
-                        {studentList.map((objectStudent, index) => {
+                        {this.props.list.map((objectStudent, index) => {
                             return (
                                 // Mỗi component Student con sẽ nhận:
                                 // - key: Phải là một giá trị DUY NHẤT để React tối ưu việc cập nhật danh sách. index là tạm ổn nhưng ID của sinh viên sẽ tốt hơn.
@@ -57,7 +46,7 @@ class StudentList extends Component {
                     </tbody>
                 </table>
                 <div>
-                    <span>Số lượng: {studentList.length}</span> {/* Hiển thị tổng số sinh viên. */}
+                    <span>Số lượng: {this.props.list.length}</span> {/* Hiển thị tổng số sinh viên. */}
                 </div>
             </>
         );
