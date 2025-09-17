@@ -5,6 +5,31 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState("false");
   const [error, setError] = useState("");
+
+  const login = () => {
+
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({
+        "email": "nguyenhuulocla2006@gmail.com",
+        "password": "123456"
+      });
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+      };
+
+      fetch("http://localhost:8000/auth/login", requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error));
+
+  }
+
   return (
     <div>
       <h1 className='text-center'>Login Form</h1>
@@ -28,6 +53,8 @@ const Auth = () => {
         <div className='form-group'>
           <button type="login"
             className='btn btn-primary'
+            onClick={() => login()}
+
           >Login</button>
         </div>
 
