@@ -3,8 +3,11 @@ import React, { useEffect, useState } from 'react';
 const ProductList = () => {
     const [productList, setProductList] = useState([]);
     useEffect(() => {
+        // const myHeaders = new Headers();
+        const token = localStorage.getItem("access_token");
+
         const myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ndXllbmh1dWxvY2xhMjAwNkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTc1ODA5NTYwMCwiZXhwIjoxNzU4MDk5MjAwfQ.SVetU5JD-HrOH5TxsY4uOnGGVmxUE0OwqfA_SPzclTo");
+        myHeaders.append("Authorization", `Bearer ${token}`);
 
         const requestOptions = {
             method: "GET",

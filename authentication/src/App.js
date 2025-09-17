@@ -7,8 +7,8 @@ import Auth from './components/Auth';
 function App() {
   return (
     <div className="container-fluid mt-3">
-     <Auth/>
-      <ProductList />
+      <Auth />
+      {/* <ProductList /> */}
     </div>
   );
 }

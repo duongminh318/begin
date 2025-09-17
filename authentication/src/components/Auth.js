@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import ProductList from './ProductList';
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLogin, setIsLogin] = useState("false");
+  const [isLogin, setIsLogin] = useState(localStorage.getItem("access_token") != null);
   const [error, setError] = useState("");
 
   const login = () => {
@@ -29,12 +30,14 @@ const Auth = () => {
         if (response.ok) {
           return response.json();
         }
+        setIsLogin(false);
         throw new Error(response.statusText)
 
       })
 
       .then((result) => {
-        localStorage.setItem("acces_token", result.access_token)
+        localStorage.setItem("access_token", result.access_token);
+
         localStorage.setItem("email", email);
         setIsLogin(true);
 
@@ -43,10 +46,15 @@ const Auth = () => {
 
   }
 
+  if (isLogin) {
+    return <ProductList />
+  }
+
+
   return (
     <div>
       <h1 className='text-center'>Login Form</h1>
-      {error ? <div class="alert alert-danger">{error}</div> : ""}
+      {error ? <div className="alert alert-danger">{error}</div> : ""}
       <form>
         <div className='form-group'>
           <label>Email: </label>
