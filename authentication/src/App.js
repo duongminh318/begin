@@ -5,7 +5,7 @@ import ProductList from './components/ProductList';
 
 function App() {
   return (
-    <div>
+    <div className="container-fluid mt-3">
       <ProductList />
     </div>
   );

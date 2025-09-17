@@ -20,8 +20,8 @@ const ProductList = () => {
         }
     ]`
 
-    const products = JSON.parse(str);
-    console.log(products);
+    const productlist = JSON.parse(str);
+    console.log(productlist);
 
 
     return (
@@ -38,12 +38,21 @@ const ProductList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Test</td>
-                        <td>10.00</td>
-                        <td> </td>
+                    {
+                        productlist.map((product, index) => {
+                            return (
+                                <tr key= {index}>
+                                    <td>{product.id}</td>
+                                    <td>{product.name}</td>
+                                    <td>{product.cost}</td>
+                                    <td>{product.quantity}</td>
+                                    
 
-                    </tr>
+                                </tr>
+                            )
+                        })
+                    }
+
                 </tbody>
             </table>
         </div>
