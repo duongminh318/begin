@@ -16,6 +16,11 @@ import * as Yup from 'yup';
 // Component này dùng để hiển thị các thông báo (ví dụ: thành công, lỗi, đang xử lý) cho người dùng.
 import Message from '../../components/Message';
 
+// Import hook `useNavigate` từ thư viện React Router DOM.
+// useNavigate được dùng để điều hướng (chuyển hướng) người dùng đến một trang khác trong ứng dụng React.
+// Trong trường hợp này, nó có thể được dùng để quay lại trang danh sách sinh viên sau khi thêm sinh viên thành công.
+import { useNavigate } from 'react-router-dom';
+
 // Định nghĩa Functional Component có tên là StudentCreatePage.
 // `export default` giúp component này có thể được import và sử dụng ở các file React khác.
 export default function StudentCreatePage() {
@@ -30,6 +35,8 @@ export default function StudentCreatePage() {
     // `isError` là một boolean (true/false) để xác định xem thông báo có phải là lỗi không.
     // Giá trị khởi tạo là `false`, tức là ban đầu không phải lỗi.
     const [isError, setIsError] = useState(false);
+
+    const navigate = useNavigate(); // Thêm dòng này
 
     // ------------------- SỬ DỤNG HOOK `useFormik` ĐỂ QUẢN LÝ FORM -------------------
 
@@ -97,10 +104,7 @@ export default function StudentCreatePage() {
                 // Nếu request thành công, cập nhật thông báo và trạng thái lỗi.
                 setMessage('Đã tạo sinh viên thành công');
                 setIsError(false); // Đặt lại isError thành false (thành công).
-                // TODO: Có thể thêm các hành động sau khi tạo thành công ở đây:
-                //   - `formik.resetForm()`: Để xóa các giá trị trong form sau khi submit.
-                //   - `navigate('/student')`: Để điều hướng người dùng quay lại trang danh sách sinh viên.
-
+                navigate('/student'); // Thêm dòng này để chuyển trang
             })
             // Bắt lỗi nếu có vấn đề trong quá trình gửi request hoặc nhận phản hồi.
             .catch(error => {
@@ -119,7 +123,7 @@ export default function StudentCreatePage() {
             <div>
                 {/* Hiển thị component `Message` nếu `message` không phải là `null` hoặc chuỗi rỗng.
                     `isError` prop được truyền vào để Message biết cần hiển thị kiểu thông báo lỗi hay thành công. */}
-               
+
 
                 <h1>Thêm sinh viên</h1>
 

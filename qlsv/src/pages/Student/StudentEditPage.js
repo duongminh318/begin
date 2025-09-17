@@ -92,15 +92,15 @@ export default function StudentEditPage() {
             },
             body: JSON.stringify(data),
         })
-            .then((res) => res.json())
+
             .then((result) => {
-                navigate({
-                    pathname: "/student", state: {
+                navigate("/student", {
+                    state: {
                         message: "Thím đã Update thành công ",
                         isError: false
                     }
                 });
-               
+
             })
             .catch((error) => {
                 setMessage(`Có lỗi xảy ra: ${error.message || error}`);
