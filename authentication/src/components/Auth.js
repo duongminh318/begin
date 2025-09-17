@@ -33,19 +33,20 @@ const Auth = () => {
 
       })
 
-      .then((result) =>{ 
-          localStorage.setItem("acces_token", result.access_token)
-          localStorage.setItem("email", email);
-          setIsLogin(true);
+      .then((result) => {
+        localStorage.setItem("acces_token", result.access_token)
+        localStorage.setItem("email", email);
+        setIsLogin(true);
 
-        })
-      .catch((error) =>setError(error.toString()));
+      })
+      .catch((error) => setError(error.toString()));
 
   }
 
   return (
     <div>
       <h1 className='text-center'>Login Form</h1>
+      {error ? <div class="alert alert-danger">{error}</div> : ""}
       <form>
         <div className='form-group'>
           <label>Email: </label>
