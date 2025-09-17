@@ -8,25 +8,38 @@ const Auth = () => {
 
   const login = () => {
 
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-      const raw = JSON.stringify({
-        "email": "nguyenhuulocla2006@gmail.com",
-        "password": "123456"
-      });
+    const raw = JSON.stringify({
+      "email": email,
+      "password": password
+    });
 
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow"
-      };
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
 
-      fetch("http://localhost:8000/auth/login", requestOptions)
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.error(error));
+    fetch("http://localhost:8000/auth/login", requestOptions)
+      .then((response) => {
+        console.log(response);
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(response.statusText)
+
+      })
+
+      .then((result) =>{ 
+          localStorage.setItem("acces_token", result.access_token)
+          localStorage.setItem("email", email);
+          setIsLogin(true);
+
+        })
+      .catch((error) =>setError(error.toString()));
 
   }
 
@@ -51,7 +64,7 @@ const Auth = () => {
         </div>
 
         <div className='form-group'>
-          <button type="login"
+          <button type="button"
             className='btn btn-primary'
             onClick={() => login()}
 
