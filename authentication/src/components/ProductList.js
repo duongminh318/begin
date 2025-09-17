@@ -1,27 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ProductList = () => {
-    const str = `[
-        {
-            "id": 1,
-            "name": "Product001",
-            "cost": 10,
-            "quantity": 1000,
-            "locationId": 1,
-            "familyId": 1
-        },
-        {
-            "id": 2,
-            "name": "Product002",
-            "cost": 20,
-            "quantity": 2000,
-            "locationId": 1,
-            "familyId": 2
-        }
-    ]`
+    const [productList, setProductList] = useState([]);
+    useEffect(() => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ndXllbmh1dWxvY2xhMjAwNkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTc1ODA5NTYwMCwiZXhwIjoxNzU4MDk5MjAwfQ.SVetU5JD-HrOH5TxsY4uOnGGVmxUE0OwqfA_SPzclTo");
 
-    const productlist = JSON.parse(str);
-    console.log(productlist);
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+        };
+
+        fetch("http://localhost:8000/products", requestOptions)
+            .then((response) => response.json())
+            .then((result) => setProductList(result))
+            .catch((error) => console.error(error));
+
+    }, [])
+    console.log(productList);
 
 
     return (
@@ -39,14 +36,14 @@ const ProductList = () => {
                 </thead>
                 <tbody>
                     {
-                        productlist.map((product, index) => {
+                        productList.map((product, index) => {
                             return (
-                                <tr key= {index}>
+                                <tr key={index}>
                                     <td>{product.id}</td>
                                     <td>{product.name}</td>
                                     <td>{product.cost}</td>
                                     <td>{product.quantity}</td>
-                                    
+
 
                                 </tr>
                             )
