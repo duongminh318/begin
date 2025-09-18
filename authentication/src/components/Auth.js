@@ -47,7 +47,24 @@ const Auth = () => {
   }
 
   if (isLogin) {
-    return <ProductList />
+
+
+
+    return (
+      <div>
+        <div className='text-right'>
+          <label className='text-primary'>
+            {localStorage.getItem("email")}
+          </label>
+          <button className='btn btn-success btn-sm ml-2'
+          
+          >
+            Logout
+          </button>
+        </div>
+        <ProductList />
+      </div>
+    )
   }
 
 
