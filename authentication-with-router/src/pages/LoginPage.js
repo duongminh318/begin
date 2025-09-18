@@ -2,8 +2,9 @@ import React from 'react';
 
 const LoginPage = () => {
  return (
-   <div></div>
- )
+  <>
+     <h1>Trang Login</h1>
+   </>)
 }
 
 export default LoginPage;

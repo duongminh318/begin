@@ -2,8 +2,9 @@ import React from 'react';
 
 const ProductsPage = () => {
  return (
-   <div></div>
- )
+   <>
+     <h1>Trang Products</h1>
+   </>)
 }
 
 export default ProductsPage;
