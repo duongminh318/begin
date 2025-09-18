@@ -4,7 +4,7 @@
 // - Route: Định nghĩa một "tuyến đường", nối một URL với một component cụ thể.
 // - Navigate: Component dùng để điều hướng người dùng đến một URL khác.
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-
+import "./App.css";   // 👈 import file CSS ở đây
 import NotFoundPage from './pages/NotFoundPage';
 import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
@@ -13,9 +13,10 @@ import RegisterPage from "./pages/RegisterPage";
 import Layout from "./layout/Layout";
 
 
+
 // Component App chính của ứng dụng.
 function App() {
-  
+
   return (
 
     // <Router> bọc toàn bộ ứng dụng để kích hoạt chức năng định tuyến.
@@ -26,24 +27,24 @@ function App() {
             - path="/": Áp dụng cho tất cả các URL bắt đầu bằng "/".
             - element={<Layout />}: Tất cả các component con bên trong sẽ được hiển thị bên trong component Layout này.
         */}
-        <Route path="/" element={<Layout/>}>
+        <Route path="/" element={<Layout />}>
 
           {/* Đây là một "tuyến đường mặc định" (index route) cho path="/".
               - index: Thuộc tính này cho biết đây là trang sẽ hiển thị khi người dùng truy cập chính xác vào URL của cha (tức là "/").
               - element={<Navigate.../>}: Thay vì hiển thị một component, nó sẽ tự động chuyển hướng người dùng đến "/student".
           */}
-          <Route index element={<HomePage/>} />
+          <Route index element={<HomePage />} />
 
           {/* Định nghĩa các tuyến đường con, được lồng bên trong <Layout /> */}
 
           {/* Khi URL là "/student", hiển thị component StudentHomePage. */}
-          <Route path="/product" element={<ProductsPage/>} />
+          <Route path="/product" element={<ProductsPage />} />
 
           {/* Khi URL là "/student/create", hiển thị component StudentCreatePage. */}
-          <Route path="/login" element={<LoginPage/>} />
+          <Route path="/login" element={<LoginPage />} />
 
           {/* Khi URL là "/student/edit", hiển thị component StudentEditPage. */}
-          <Route path="/register" element={<RegisterPage/>} />
+          <Route path="/register" element={<RegisterPage />} />
 
           {/* Đây là "tuyến đường bắt tất cả" (catch-all route).
               - path="*": Dấu "*" sẽ khớp với BẤT KỲ URL nào không khớp với các tuyến đường đã định nghĩa ở trên.

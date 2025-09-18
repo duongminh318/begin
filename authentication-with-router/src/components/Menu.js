@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 class Menu extends Component {
     render() {
         return (
-            <>
+            < nav className='text-right'>
                 <NavLink to="/"
                     className="btn btn-info mr-3" >Home</NavLink>
                 <NavLink to="products"
@@ -13,9 +13,9 @@ class Menu extends Component {
                     className="btn btn-info mr-3">Login</NavLink>
                 <NavLink to="register"
                     className="btn btn-info mr-3">Registers</NavLink>
-            </>
-        );
+                </nav >
+                );
     }
 }
 
-export default Menu;
+                export default Menu;
