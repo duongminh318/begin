@@ -39,7 +39,7 @@ function App() {
               - index: Thuộc tính này cho biết đây là trang sẽ hiển thị khi người dùng truy cập chính xác vào URL của cha (tức là "/").
               - element={<Navigate.../>}: Thay vì hiển thị một component, nó sẽ tự động chuyển hướng người dùng đến "/student".
           */}
-          <Route index element={<Navigate to="/student" />} />
+          <Route index element={<HomePage/>} />
 
           {/* Định nghĩa các tuyến đường con, được lồng bên trong <Layout /> */}
 
