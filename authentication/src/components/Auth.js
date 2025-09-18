@@ -46,10 +46,19 @@ const Auth = () => {
 
   }
 
+  // hàm xử lý khi nhấn nút logout
+  const logout = () => {
+    // Xóa token trong localStorage (dùng để xác thực người dùng)
+    localStorage.removeItem("access_token");
+
+    // Xóa email trong localStorage (thường lưu để hiển thị thông tin user)
+    localStorage.removeItem("email");
+
+    // Cập nhật state => đánh dấu user đã đăng xuất
+    setIsLogin(false);
+  }
+
   if (isLogin) {
-
-
-
     return (
       <div>
         <div className='text-right'>
@@ -57,7 +66,7 @@ const Auth = () => {
             {localStorage.getItem("email")}
           </label>
           <button className='btn btn-success btn-sm ml-2'
-          
+            onClick={() => logout()}
           >
             Logout
           </button>
