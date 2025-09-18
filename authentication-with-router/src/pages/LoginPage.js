@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 const LoginPage = () => {
 
 
@@ -7,6 +8,8 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
 
     const [error, setError] = useState("");
+
+    const navigate = useNavigate();
 
     const login = () => {
 
@@ -40,6 +43,9 @@ const LoginPage = () => {
                 localStorage.setItem("access_token", result.access_token);
 
                 localStorage.setItem("email", email);
+                // redirect to products page
+
+                navigate("/products")
 
 
             })

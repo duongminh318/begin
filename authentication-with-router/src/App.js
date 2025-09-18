@@ -38,7 +38,7 @@ function App() {
           {/* Định nghĩa các tuyến đường con, được lồng bên trong <Layout /> */}
 
           {/* Khi URL là "/student", hiển thị component StudentHomePage. */}
-          <Route path="/product" element={<ProductsPage />} />
+          <Route path="/products" element={<ProductsPage />} />
 
           {/* Khi URL là "/student/create", hiển thị component StudentCreatePage. */}
           <Route path="/login" element={<LoginPage />} />
