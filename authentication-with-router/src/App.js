@@ -5,24 +5,17 @@
 // - Navigate: Component dùng để điều hướng người dùng đến một URL khác.
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-// Import các component layout và các trang (pages).
-import Layout from './layout/Layout';
-import StudentHomePage from "./pages/Student/StudentHomePage";
-import StudentCreatePage from "./pages/Student/StudentCreatePage";
-import StudentEditPage from "./pages/Student/StudentEditPage";
 import NotFoundPage from './pages/NotFoundPage';
-import { useSelector } from "react-redux";
+import HomePage from "./pages/HomePage";
+import ProductsPage from "./pages/ProductsPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import Layout from "./layout/Layout";
+
 
 // Component App chính của ứng dụng.
 function App() {
-  // Lấy dữ liệu từ Redux store bằng hook useSelector.
-  // state là toàn bộ Redux store, state.studentReducer là phần state do studentReducer quản lý.
-  // Biến search sẽ chứa dữ liệu (ví dụ: danh sách sinh viên, từ khóa tìm kiếm, v.v.) từ studentReducer.
-  const search = useSelector(state => state.studentReducer);
-
-  // In giá trị lấy được ra console để kiểm tra.
-  // Mỗi lần state.studentReducer thay đổi, dòng này sẽ log giá trị mới.
-  console.log("State search trên store: ", search);
+  
   return (
 
     // <Router> bọc toàn bộ ứng dụng để kích hoạt chức năng định tuyến.
@@ -33,7 +26,7 @@ function App() {
             - path="/": Áp dụng cho tất cả các URL bắt đầu bằng "/".
             - element={<Layout />}: Tất cả các component con bên trong sẽ được hiển thị bên trong component Layout này.
         */}
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout/>}>
 
           {/* Đây là một "tuyến đường mặc định" (index route) cho path="/".
               - index: Thuộc tính này cho biết đây là trang sẽ hiển thị khi người dùng truy cập chính xác vào URL của cha (tức là "/").
@@ -44,13 +37,13 @@ function App() {
           {/* Định nghĩa các tuyến đường con, được lồng bên trong <Layout /> */}
 
           {/* Khi URL là "/student", hiển thị component StudentHomePage. */}
-          <Route path="student" element={<StudentHomePage />} />
+          <Route path="/product" element={<ProductsPage/>} />
 
           {/* Khi URL là "/student/create", hiển thị component StudentCreatePage. */}
-          <Route path="student/create" element={<StudentCreatePage />} />
+          <Route path="/login" element={<LoginPage/>} />
 
           {/* Khi URL là "/student/edit", hiển thị component StudentEditPage. */}
-          <Route path="student/:id/edit" element={<StudentEditPage />} />
+          <Route path="/register" element={<RegisterPage/>} />
 
           {/* Đây là "tuyến đường bắt tất cả" (catch-all route).
               - path="*": Dấu "*" sẽ khớp với BẤT KỲ URL nào không khớp với các tuyến đường đã định nghĩa ở trên.
