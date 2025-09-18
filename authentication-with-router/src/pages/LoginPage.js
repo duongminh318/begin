@@ -1,89 +1,90 @@
 
 import React, { useState } from 'react';
 const LoginPage = () => {
- 
-    
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  
-  const [error, setError] = useState("");
 
-  const login = () => {
 
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const raw = JSON.stringify({
-      "email": email,
-      "password": password
-    });
+    const [error, setError] = useState("");
 
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow"
-    };
+    const login = () => {
 
-    fetch("http://localhost:8000/auth/login", requestOptions)
-      .then((response) => {
-        console.log(response);
-        if (response.ok) {
-          return response.json();
-        }
-      
-        throw new Error(response.statusText)
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
 
-      })
+        const raw = JSON.stringify({
+            "email": email,
+            "password": password
+        });
 
-      .then((result) => {
-        localStorage.setItem("access_token", result.access_token);
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
 
-        localStorage.setItem("email", email);
-       
+        fetch("http://localhost:8000/auth/login", requestOptions)
+            .then((response) => {
+                console.log(response);
+                if (response.ok) {
+                    return response.json();
+                }
 
-      })
-      .catch((error) => setError(error.toString()));
+                throw new Error(response.statusText)
 
-  }
+            })
 
-  
+            .then((result) => {
+                localStorage.setItem("access_token", result.access_token);
 
-  
+                localStorage.setItem("email", email);
 
-  return (
-    <div>
-      <h1 className='text-center'>Login Form</h1>
-      {error ? <div className="alert alert-danger">{error}</div> : ""}
-      <form>
-        <div className='form-group'>
-          <label>Email: </label>
-          <input type="email" className='form-control'
-            onChange={(event) => { setEmail(event.target.value) }}
-            value={email}
-          />
+
+            })
+            .catch((error) => setError(error.toString()));
+
+    }
+
+
+
+
+
+    return (
+        <div>
+
+            <form style={{ maxWidth: "600px", margin: "auto" }}>
+                <h1 className='text-center'>Login Form</h1>
+                {error ? <div className="alert alert-danger">{error}</div> : ""}
+                <div className='form-group'>
+                    <label>Email: </label>
+                    <input type="email" className='form-control'
+                        onChange={(event) => { setEmail(event.target.value) }}
+                        value={email}
+                    />
+                </div>
+
+                <div className='form-group'>
+                    <label>Password: </label>
+                    <input type="password" className='form-control'
+                        onChange={(event) => { setPassword(event.target.value) }}
+                        value={password}
+                    />
+                </div>
+
+                <div className='form-group'>
+                    <button type="button"
+                        className='btn btn-primary'
+                        onClick={() => login()}
+
+                    >Login</button>
+                </div>
+
+            </form>
         </div>
+    )
 
-        <div className='form-group'>
-          <label>Password: </label>
-          <input type="password" className='form-control'
-            onChange={(event) => { setPassword(event.target.value) }}
-            value={password}
-          />
-        </div>
-
-        <div className='form-group'>
-          <button type="button"
-            className='btn btn-primary'
-            onClick={() => login()}
-
-          >Login</button>
-        </div>
-
-      </form>
-    </div>
-  )
-  
 }
 
 export default LoginPage;
