@@ -1,8 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 const ProductsPage = () => {
-  const [productList, setProductList] = useState([]);
+    const [productList, setProductList] = useState([]);
+    const navigate = useNavigate();
     useEffect(() => {
         // const myHeaders = new Headers();
         const token = localStorage.getItem("access_token");
@@ -36,7 +37,7 @@ const ProductsPage = () => {
                     localStorage.removeItem("email");
 
                     // Redirect user về trang chủ để login lại
-                    window.location.href = "/";
+                    navigate("/login");
                 }
 
                 // Nếu không phải 200-299 và cũng không phải 401 => ném ra error
