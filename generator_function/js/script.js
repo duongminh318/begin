@@ -15,9 +15,9 @@ function* basicOperator(a, b) {
     const c = a + b;
     yield c; // giống return c
 
-    // console.log("Trừ: ");
-    // const d = abb;
-    // yield d; // giống return c
+    console.log("Trừ: ");
+    const d = a - b;
+    return d;
 }
 const m = 4;
 const n = 7;
@@ -30,3 +30,7 @@ var obj = interatorObj.next(); //{value: 11, done: false}
 //value là giá trị chỗ yield trong hàm, 
 //thuộc tính done: hàm đã kết thúc chưa (false: chưa, true: rồi)
 console.log(obj);
+
+var obj2 = interatorObj.next(); ///{value: -3, done: true} 
+// khi gặp return thì true
+console.log(obj2);
