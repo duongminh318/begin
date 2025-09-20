@@ -24,7 +24,7 @@ const Menu = () => {
                         className="btn btn-info mr-3"
                         onClick={() => logout()}
                     >Logout</button>
-                    <button className="btn btn-info mr-3">
+                    <button className="btn btn-warning mr-3">
                         {localStorage.getItem("email")}
                     </button>
                 </>
