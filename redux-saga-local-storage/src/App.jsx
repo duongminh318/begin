@@ -1,30 +1,37 @@
 
-import './App.css'
+import './App.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { incrementAction, decrementAction } from './actions/index';
+// import counterReducers from "./counterReducers";
 
 function App() {
+  const dispatch = useDispatch();
+  const state = useSelector(state => state.counterReducers);
 
-  function increment() {
-    alert(1);
+  function increment(step) {
+    // alert(1);
     // dispatch to store later
+    dispatch(incrementAction(step))
   }
 
-  function decrement() {
-    alert(2);
+  function decrement(step) {
+    // alert(2);
     // dispatch to store later
+    dispatch(decrementAction(step))
   }
   return (
 
 
     <div className='App'>
-      <button onClick={() => increment()}>
+      <button onClick={() => increment(2)}>
         Tăng
       </button>
 
-      <button onClick={() => decrement()}>
+      <button onClick={() => decrement(3)}>
         Giảm
       </button>
 
-      <div> Message...</div>
+      <div> Message: {state}</div>
 
     </div>
 
