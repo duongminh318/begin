@@ -2,24 +2,32 @@ import { INCREMENT, DECREMENT } from "../actions/actionTypes";
 // Import hằng số định nghĩa action types (INCREMENT, DECREMENT)
 
 import { takeEvery, call } from "redux-saga/effects";
+
+// hàm giả lập delay
+const delay = (ms) => new Promise(res => setTimeout(res, ms));
+
+
 // Import effect takeEvery (lắng nghe action) và call (gọi hàm trong saga)
 
 // Worker saga: chạy khi có action INCREMENT
-export function* incrementlog() {
+export function* incrementlog(action) {
+
+    yield delay(5000); // chờ 5s rồi mới chạy tiếp
     // Gọi console.log thông qua effect call (để saga quản lý side effect này)
     yield call(console.log, "Log tăng từ sagaMiddleware");
 
     // Gọi hàm logLocalStorage để lưu log "tăng" vào localStorage
-    yield call(logLocalStorage, "tăng");
+    yield call(logLocalStorage, ` tăng : ${action.step}`);
 }
 
 // Worker saga: chạy khi có action DECREMENT
-export function* decrementlog() {
+export function* decrementlog(action) {
+    yield delay(2000);
     // Log ra console khi action DECREMENT được dispatch
     yield call(console.log, "Log giảm từ sagaMiddleware");
 
     // Lưu log "giảm" vào localStorage
-    yield call(logLocalStorage, "giảm");
+    yield call(logLocalStorage, ` giảm : ${action.step}`);
 }
 
 // Hàm tiện ích: dùng để lưu thông tin log vào localStorage

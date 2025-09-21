@@ -7,10 +7,12 @@ import { incrementAction, decrementAction } from './actions/index';
 function App() {
   const dispatch = useDispatch();
   const state = useSelector(state => state.counterReducers);
+ 
 
   function increment(step) {
     // alert(1);
     // dispatch to store later
+    
     dispatch(incrementAction(step))
   }
 
